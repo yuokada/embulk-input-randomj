@@ -1,5 +1,7 @@
 # Randomj input plugin for Embulk
 
+[![Gem Version](https://badge.fury.io/rb/embulk-input-randomj.svg)](https://badge.fury.io/rb/embulk-input-randomj)  
+
 Embulk plugin for generate dummy records by Java.
 
 Original: [kumagi/embulk\-input\-random](https://github.com/kumagi/embulk-input-random)
