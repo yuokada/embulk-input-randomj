@@ -91,7 +91,6 @@ public class RandomjInputPlugin
         Integer rows = (Integer) task.getRows();
         try (PageBuilder pagebuilder =
                 new PageBuilder(Exec.getBufferAllocator(), schema, output)) {
-
             Random rnd = new Random();
             List<Integer> rowNumbers = IntStream.rangeClosed(
                     taskIndex * rows + 1,
