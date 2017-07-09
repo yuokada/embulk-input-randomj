@@ -51,7 +51,7 @@ public class RandomjColumnVisitor
     @Override
     public void longColumn(Column column)
     {
-        final String pk = task.getPrimaryKey();
+        final String pk = task.getPrimaryKey().get();
         if (column.getName().equals(pk)) {
             pageBuilder.setLong(column, row);
         }

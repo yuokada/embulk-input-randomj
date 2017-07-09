@@ -1,5 +1,6 @@
 package org.embulk.input.randomj;
 
+import com.google.common.base.Optional;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 import org.embulk.config.Config;
@@ -44,11 +45,11 @@ public class RandomjInputPlugin
         Integer getThreads();
 
         @Config("primary_key")
-        @ConfigDefault("")
-        String getPrimaryKey();
+        @ConfigDefault("null")
+        Optional<String> getPrimaryKey();
 
         @Config("schema")
-        SchemaConfig getSchema();
+        public SchemaConfig getSchema();
     }
 
     @Override
