@@ -81,9 +81,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ["yuokada"]
   spec.summary       = %[Randomj input plugin for Embulk]
   spec.description   = %[Loads records from Randomj.]
-  spec.email         = ["callistoiv+git@gmail.com"]
+  spec.email         = ["ykhrokada+rubygems@gmail.com"]
   spec.licenses      = ["MIT"]
-  # TODO set this: spec.homepage      = "https://github.com/callistoiv+git/embulk-input-randomj"
+  spec.homepage      = "https://github.com/yuokada/embulk-input-randomj"
 
   spec.files         = `git ls-files`.split("\n") + Dir["classpath/*.jar"]
   spec.test_files    = spec.files.grep(%r"^(test|spec)/")
