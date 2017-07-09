@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class RandomjInputPlugin
@@ -92,15 +91,13 @@ public class RandomjInputPlugin
         try (PageBuilder pagebuilder =
                 new PageBuilder(Exec.getBufferAllocator(), schema, output)) {
             Random rnd = new Random();
-            List<Integer> rowNumbers = IntStream.rangeClosed(
+            IntStream.rangeClosed(
                     taskIndex * rows + 1,
                     taskIndex * rows + rows
-            ).boxed().collect(Collectors.toList());
-            for (Integer rowNumber : rowNumbers) {
+            ).boxed().forEach(rowNumber -> {
                 for (int i = 0; i < schema.size(); i++) {
                     Column column = schema.getColumn(i);
                     Type type = column.getType();
-
                     switch (type.getName()) {
                         case "long":
                             final String pk = task.getPrimaryKey();
@@ -142,7 +139,7 @@ public class RandomjInputPlugin
                     }
                 }
                 pagebuilder.addRecord();
-            }
+            });
             pagebuilder.finish();
         }
 
