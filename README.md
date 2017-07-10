@@ -45,7 +45,7 @@ in:
       - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
 ```
 
-## Uage
+## Usage
 
 ```shell
 
