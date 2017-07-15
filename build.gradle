@@ -82,7 +82,7 @@ Gem::Specification.new do |spec|
   spec.version       = "${project.version}"
   spec.authors       = ["yuokada"]
   spec.summary       = %[Randomj input plugin for Embulk]
-  spec.description   = %[Loads records from Randomj.]
+  spec.description   = %[Embulk plugin for generate dummy records by Java.]
   spec.email         = ["ykhrokada+rubygems@gmail.com"]
   spec.licenses      = ["MIT"]
   spec.homepage      = "https://github.com/yuokada/embulk-input-randomj"
