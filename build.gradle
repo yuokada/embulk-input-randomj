@@ -43,7 +43,7 @@ checkstyle {
 }
 checkstyleMain {
     configFile = file("${project.rootDir}/config/checkstyle/default.xml")
-    ignoreFailures = true
+    ignoreFailures = false
 }
 checkstyleTest {
     configFile = file("${project.rootDir}/config/checkstyle/default.xml")
