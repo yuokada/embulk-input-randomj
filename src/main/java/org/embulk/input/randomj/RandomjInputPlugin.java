@@ -95,10 +95,10 @@ public class RandomjInputPlugin
                     taskIndex * rows + 1,
                     taskIndex * rows + rows
             ).boxed().forEach(rowNumber -> {
-                for (int i = 0; i < schema.size(); i++) {
-                    Column column = schema.getColumn(i);
-                    Type type = column.getType();
-                    switch (type.getName()) {
+                for (Column column : schema.getColumns()) {
+                    final Integer i = column.getIndex();
+                    Type t = column.getType();
+                    switch (t.getName()) {
                         case "long":
                             final String pk = task.getPrimaryKey();
                             if (column.getName().equals(pk)) {
