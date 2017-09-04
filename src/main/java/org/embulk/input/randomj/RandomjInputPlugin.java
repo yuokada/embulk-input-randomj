@@ -38,19 +38,19 @@ public class RandomjInputPlugin
     {
         // configuration row (required integer)
         @Config("rows")
-        public int getRows();
+        int getRows();
 
         // ref: https://github.com/embulk/embulk-input-jdbc/blob/master/embulk-input-mysql/src/main/java/org/embulk/input/MySQLInputPlugin.java#L33-L35
         @Config("threads")
         @ConfigDefault("1")
-        public int getThreads();
+        Integer getThreads();
 
         @Config("primary_key")
         @ConfigDefault("")
         String getPrimaryKey();
 
         @Config("schema")
-        public SchemaConfig getSchema();
+        SchemaConfig getSchema();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class RandomjInputPlugin
             PageOutput output)
     {
         PluginTask task = taskSource.loadTask(PluginTask.class);
-        Integer rows = (Integer) task.getRows();
+        Integer rows = task.getRows();
         try (PageBuilder pagebuilder =
                 new PageBuilder(Exec.getBufferAllocator(), schema, output)) {
             Random rnd = new Random();
