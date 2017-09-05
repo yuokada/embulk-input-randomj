@@ -9,20 +9,14 @@ import org.embulk.config.ConfigSource;
 import org.embulk.config.Task;
 import org.embulk.config.TaskReport;
 import org.embulk.config.TaskSource;
-import org.embulk.spi.Column;
 import org.embulk.spi.Exec;
 import org.embulk.spi.InputPlugin;
 import org.embulk.spi.PageBuilder;
 import org.embulk.spi.PageOutput;
 import org.embulk.spi.Schema;
 import org.embulk.spi.SchemaConfig;
-import org.embulk.spi.time.Timestamp;
-import org.embulk.spi.type.Type;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.IntStream;
 
 public class RandomjInputPlugin
@@ -90,54 +84,12 @@ public class RandomjInputPlugin
         Integer rows = task.getRows();
         try (PageBuilder pagebuilder =
                 new PageBuilder(Exec.getBufferAllocator(), schema, output)) {
-            Random rnd = new Random();
             IntStream.rangeClosed(
                     taskIndex * rows + 1,
                     taskIndex * rows + rows
             ).boxed().forEach(rowNumber -> {
-                for (Column column : schema.getColumns()) {
-                    final Integer i = column.getIndex();
-                    Type t = column.getType();
-                    switch (t.getName()) {
-                        case "long":
-                            final String pk = task.getPrimaryKey();
-                            if (column.getName().equals(pk)) {
-                                pagebuilder.setLong(i, rowNumber);
-                            }
-                            else {
-                                pagebuilder.setLong(i, rnd.nextInt(10000));
-                            }
-                            break;
-                        case "double":
-                            pagebuilder.setDouble(i, rnd.nextDouble() * 10000);
-                            break;
-                        case "boolean":
-                            if (Math.random() < 0.5) {
-                                pagebuilder.setBoolean(i, false);
-                            }
-                            else {
-                                pagebuilder.setBoolean(i, true);
-                            }
-                            break;
-                        case "string":
-                            pagebuilder.setString(i, generator.generate(32));
-                            break;
-                        case "timestamp":
-                            final ZoneId zoneId = ZoneId.systemDefault();
-                            final double randd = Math.random();
-                            LocalDateTime randomDate = LocalDateTime.now()
-                                    .plusDays((long) (randd * 100))
-                                    .plusSeconds((long) (randd * 1000000));
-                            Timestamp timestamp = Timestamp.ofEpochSecond(
-                                    randomDate.atZone(zoneId).toEpochSecond()
-                            );
-                            pagebuilder.setTimestamp(column, timestamp);
-                            break;
-                        default:
-                            System.out.println("Unsupported type");
-                            break;
-                    }
-                }
+                RandomColumnVisitor visitor = new RandomColumnVisitor(pagebuilder, task, rowNumber);
+                schema.visitColumns(visitor);
                 pagebuilder.addRecord();
             });
             pagebuilder.finish();
