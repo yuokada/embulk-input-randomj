@@ -10,6 +10,8 @@ import org.embulk.spi.time.Timestamp;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class RandomjColumnVisitor
@@ -19,17 +21,19 @@ public class RandomjColumnVisitor
     private final PluginTask task;
     private final Integer row;
     private final Random rnd;
+    private final HashMap<Column, Map<String, Integer>> columnOptions;
     private final RandomStringGenerator generator = new RandomStringGenerator.Builder()
             .withinRange('0', 'z')
             .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
             .build();
     private final ZoneId zoneId = ZoneId.systemDefault();
 
-    public RandomjColumnVisitor(PageBuilder pageBuilder, PluginTask task, Integer row)
+    public RandomjColumnVisitor(PageBuilder pageBuilder, PluginTask task, Integer row, HashMap<Column, Map<String, Integer>> columnOptions)
     {
         this.task = task;
         this.pageBuilder = pageBuilder;
         this.row = row;
+        this.columnOptions = columnOptions;
         this.rnd = new Random();
     }
 
@@ -52,20 +56,53 @@ public class RandomjColumnVisitor
             pageBuilder.setLong(column, row);
         }
         else {
-            pageBuilder.setLong(column, rnd.nextInt(10000));
+            Integer max = columnOptions.get(column).get("max_value");
+            Integer min = columnOptions.get(column).get("min_value");
+            if (max != null) {
+                if (min != null) {
+                    Integer s = min + rnd.nextInt((max - min));
+                    pageBuilder.setLong(column, s);
+                }
+                else {
+                    pageBuilder.setLong(column, rnd.nextInt(max));
+                }
+            }
+            else {
+                pageBuilder.setLong(column, rnd.nextInt(10000));
+            }
         }
     }
 
     @Override
     public void doubleColumn(Column column)
     {
-        pageBuilder.setDouble(column, rnd.nextDouble() * 10000);
+        Integer max = columnOptions.get(column).get("max_value");
+        Integer min = columnOptions.get(column).get("min_value");
+        if (max != null) {
+            if (min != null) {
+                Double d = min + rnd.nextInt((max - min) - 1) + rnd.nextDouble();
+                pageBuilder.setDouble(column, d);
+            }
+            else {
+                Double d = rnd.nextInt(max - 1) + rnd.nextDouble();
+                pageBuilder.setDouble(column, d);
+            }
+        }
+        else {
+            pageBuilder.setDouble(column, rnd.nextDouble() * 10000);
+        }
     }
 
     @Override
     public void stringColumn(Column column)
     {
-        pageBuilder.setString(column, generator.generate(32));
+        final Integer length = columnOptions.get(column).getOrDefault("length", 0);
+        if (length == 0) {
+            pageBuilder.setString(column, generator.generate(32));
+        }
+        else {
+            pageBuilder.setString(column, generator.generate(length));
+        }
     }
 
     @Override
