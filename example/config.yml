@@ -7,9 +7,10 @@ in:
   schema:
     - {name: myid,     type: long}
     - {name: named,    type: string}
+    - {name: named_s,  type: string, length: 8}
     - {name: x_flag,   type: boolean}
-    - {name: pit_rate, type: double}
-    - {name: score,    type: long}
+    - {name: rate,     type: double, max_value: 100, min_value: -100}
+    - {name: score,    type: long, max_value: 255, min_value: 100}
     - {name: time,     type: timestamp, format: '%Y-%m-%d %H:%M:%S'}
     - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
 
