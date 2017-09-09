@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Random;
 
-public class RandomColumnVisitor
+public class RandomjColumnVisitor
         implements ColumnVisitor
 {
     private final PageBuilder pageBuilder;
@@ -25,7 +25,7 @@ public class RandomColumnVisitor
             .build();
     private final ZoneId zoneId = ZoneId.systemDefault();
 
-    public RandomColumnVisitor(PageBuilder pageBuilder, PluginTask task, Integer row)
+    public RandomjColumnVisitor(PageBuilder pageBuilder, PluginTask task, Integer row)
     {
         this.task = task;
         this.pageBuilder = pageBuilder;

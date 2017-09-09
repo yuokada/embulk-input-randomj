@@ -88,7 +88,7 @@ public class RandomjInputPlugin
                     taskIndex * rows + 1,
                     taskIndex * rows + rows
             ).boxed().forEach(rowNumber -> {
-                RandomColumnVisitor visitor = new RandomColumnVisitor(pagebuilder, task, rowNumber);
+                RandomjColumnVisitor visitor = new RandomjColumnVisitor(pagebuilder, task, rowNumber);
                 schema.visitColumns(visitor);
                 pagebuilder.addRecord();
             });
