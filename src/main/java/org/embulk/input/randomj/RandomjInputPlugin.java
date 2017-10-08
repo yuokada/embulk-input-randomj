@@ -70,6 +70,7 @@ public class RandomjInputPlugin
             Schema schema, int taskCount,
             List<TaskReport> successTaskReports)
     {
+        throw new UnsupportedOperationException("randomj input plugin does not support cleanup");
     }
 
     @Override
