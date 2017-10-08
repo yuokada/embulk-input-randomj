@@ -10,7 +10,6 @@ import org.embulk.spi.time.Timestamp;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -21,14 +20,14 @@ public class RandomjColumnVisitor
     private final PluginTask task;
     private final Integer row;
     private final Random rnd;
-    private final HashMap<Column, Map<String, Integer>> columnOptions;
+    private final Map<Column, Map<String, Integer>> columnOptions;
     private final RandomStringGenerator generator = new RandomStringGenerator.Builder()
             .withinRange('0', 'z')
             .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
             .build();
     private final ZoneId zoneId = ZoneId.systemDefault();
 
-    public RandomjColumnVisitor(PageBuilder pageBuilder, PluginTask task, Integer row, HashMap<Column, Map<String, Integer>> columnOptions)
+    public RandomjColumnVisitor(PageBuilder pageBuilder, PluginTask task, Integer row, Map<Column, Map<String, Integer>> columnOptions)
     {
         this.task = task;
         this.pageBuilder = pageBuilder;

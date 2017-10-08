@@ -1,7 +1,5 @@
 package org.embulk.input.randomj;
 
-import org.apache.commons.text.CharacterPredicates;
-import org.apache.commons.text.RandomStringGenerator;
 import org.embulk.config.Config;
 import org.embulk.config.ConfigDefault;
 import org.embulk.config.ConfigDiff;
@@ -26,11 +24,6 @@ import java.util.stream.IntStream;
 public class RandomjInputPlugin
         implements InputPlugin
 {
-    private final RandomStringGenerator generator = new RandomStringGenerator.Builder()
-            .withinRange('0', 'z')
-            .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
-            .build();
-
     public interface PluginTask
             extends Task
     {
@@ -77,6 +70,7 @@ public class RandomjInputPlugin
             Schema schema, int taskCount,
             List<TaskReport> successTaskReports)
     {
+        throw new UnsupportedOperationException("randomj input plugin does not support cleanup");
     }
 
     @Override
