@@ -10,3 +10,8 @@ sudo: false
 script:
   - ./gradlew --info checkstyle
   - ./gradlew --info check
+
+after_success: ./gradlew sonarqube \
+  -Dsonar.organization=yuokada-github \
+  -Dsonar.host.url=https://sonarcloud.io \
+  -Dsonar.login=${SONAR_TOKEN}
