@@ -2,7 +2,6 @@ package org.embulk.input.randomj;
 
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
-import org.embulk.input.randomj.RandomjInputPlugin.PluginTask;
 import org.embulk.spi.Column;
 import org.embulk.spi.ColumnVisitor;
 import org.embulk.spi.PageBuilder;
