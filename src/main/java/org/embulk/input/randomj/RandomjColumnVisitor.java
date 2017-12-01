@@ -39,11 +39,17 @@ public class RandomjColumnVisitor
     @Override
     public void booleanColumn(Column column)
     {
-        if (Math.random() < 0.5) {
-            pageBuilder.setBoolean(column, false);
+        Integer nrate = columnOptions.get(column).get("null_rate");
+        if (Math.random() < (double) nrate / 10000) {
+            pageBuilder.setNull(column);
         }
         else {
-            pageBuilder.setBoolean(column, true);
+            if (Math.random() < 0.5) {
+                pageBuilder.setBoolean(column, false);
+            }
+            else {
+                pageBuilder.setBoolean(column, true);
+            }
         }
     }
 
@@ -55,19 +61,25 @@ public class RandomjColumnVisitor
             pageBuilder.setLong(column, row);
         }
         else {
-            Integer max = columnOptions.get(column).get("max_value");
-            Integer min = columnOptions.get(column).get("min_value");
-            if (max != null) {
-                if (min != null) {
-                    Integer s = min + rnd.nextInt((max - min));
-                    pageBuilder.setLong(column, s);
-                }
-                else {
-                    pageBuilder.setLong(column, rnd.nextInt(max));
-                }
+            Integer nrate = columnOptions.get(column).get("null_rate");
+            if (Math.random() < (double) nrate / 10000) {
+                pageBuilder.setNull(column);
             }
             else {
-                pageBuilder.setLong(column, rnd.nextInt(10000));
+                Integer max = columnOptions.get(column).get("max_value");
+                Integer min = columnOptions.get(column).get("min_value");
+                if (max != null) {
+                    if (min != null) {
+                        Integer s = min + rnd.nextInt((max - min));
+                        pageBuilder.setLong(column, s);
+                    }
+                    else {
+                        pageBuilder.setLong(column, rnd.nextInt(max));
+                    }
+                }
+                else {
+                    pageBuilder.setLong(column, rnd.nextInt(10000));
+                }
             }
         }
     }
@@ -75,46 +87,64 @@ public class RandomjColumnVisitor
     @Override
     public void doubleColumn(Column column)
     {
-        Integer max = columnOptions.get(column).get("max_value");
-        Integer min = columnOptions.get(column).get("min_value");
-        if (max != null) {
-            if (min != null) {
-                Double d = min + rnd.nextInt((max - min) - 1) + rnd.nextDouble();
-                pageBuilder.setDouble(column, d);
-            }
-            else {
-                Double d = rnd.nextInt(max - 1) + rnd.nextDouble();
-                pageBuilder.setDouble(column, d);
-            }
+        Integer nrate = columnOptions.get(column).get("null_rate");
+        if (Math.random() < (double) nrate / 10000) {
+            pageBuilder.setNull(column);
         }
         else {
-            pageBuilder.setDouble(column, rnd.nextDouble() * 10000);
+            Integer max = columnOptions.get(column).get("max_value");
+            Integer min = columnOptions.get(column).get("min_value");
+            if (max != null) {
+                if (min != null) {
+                    Double d = min + rnd.nextInt((max - min) - 1) + rnd.nextDouble();
+                    pageBuilder.setDouble(column, d);
+                }
+                else {
+                    Double d = rnd.nextInt(max - 1) + rnd.nextDouble();
+                    pageBuilder.setDouble(column, d);
+                }
+            }
+            else {
+                pageBuilder.setDouble(column, rnd.nextDouble() * 10000);
+            }
         }
     }
 
     @Override
     public void stringColumn(Column column)
     {
-        final Integer length = columnOptions.get(column).getOrDefault("length", 0);
-        if (length == 0) {
-            pageBuilder.setString(column, generator.generate(32));
+        Integer nrate = columnOptions.get(column).get("null_rate");
+        if (Math.random() < (double) nrate / 10000) {
+            pageBuilder.setNull(column);
         }
         else {
-            pageBuilder.setString(column, generator.generate(length));
+            final Integer length = columnOptions.get(column).getOrDefault("length", 0);
+            if (length == 0) {
+                pageBuilder.setString(column, generator.generate(32));
+            }
+            else {
+                pageBuilder.setString(column, generator.generate(length));
+            }
         }
     }
 
     @Override
     public void timestampColumn(Column column)
     {
-        final double randd = Math.random();
-        LocalDateTime randomDate = LocalDateTime.now()
-                .plusDays((long) (randd * 100))
-                .plusSeconds((long) (randd * 1000000));
-        Timestamp timestamp = Timestamp.ofEpochSecond(
-                randomDate.atZone(zoneId).toEpochSecond()
-        );
-        pageBuilder.setTimestamp(column, timestamp);
+        Integer nrate = columnOptions.get(column).get("null_rate");
+        if (Math.random() < (double) nrate / 10000) {
+            pageBuilder.setNull(column);
+        }
+        else {
+            final double randd = Math.random();
+            LocalDateTime randomDate = LocalDateTime.now()
+                    .plusDays((long) (randd * 100))
+                    .plusSeconds((long) (randd * 1000000));
+            Timestamp timestamp = Timestamp.ofEpochSecond(
+                    randomDate.atZone(zoneId).toEpochSecond()
+            );
+            pageBuilder.setTimestamp(column, timestamp);
+        }
     }
 
     @Override
