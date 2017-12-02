@@ -179,3 +179,10 @@ $ ./gradlew gem  # -t to watch change of files and rebuild continuously
 $ ./gradlew build && ./gradlew classpath 
 $ embulk run -I lib config/example.yml     
 ```
+
+
+## ChangeLog
+
+### v0.4
+
+- Support null_rate parameter
