@@ -21,7 +21,6 @@ import java.util.stream.IntStream;
 public class RandomjInputPlugin
         implements InputPlugin
 {
-
     @Override
     public ConfigDiff transaction(ConfigSource config,
             InputPlugin.Control control)
