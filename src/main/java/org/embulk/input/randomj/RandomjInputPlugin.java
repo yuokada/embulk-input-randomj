@@ -1,5 +1,8 @@
 package org.embulk.input.randomj;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.embulk.config.ConfigDiff;
 import org.embulk.config.ConfigSource;
 import org.embulk.config.TaskReport;
@@ -13,6 +16,7 @@ import org.embulk.spi.PageOutput;
 import org.embulk.spi.Schema;
 import org.embulk.spi.SchemaConfig;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,13 +62,14 @@ public class RandomjInputPlugin
         PluginTask task = taskSource.loadTask(PluginTask.class);
         Integer rows = task.getRows();
         final HashMap<Column, Map<String, Integer>> columnOptions = getColumnOptions(task);
+        final HashMap<Column, List<JsonNode>> columnSchemas = getColumnSchemas(task);
         try (PageBuilder pagebuilder =
                 new PageBuilder(Exec.getBufferAllocator(), schema, output)) {
             IntStream.rangeClosed(
                     taskIndex * rows + 1,
                     taskIndex * rows + rows
             ).boxed().forEach(rowNumber -> {
-                RandomjColumnVisitor visitor = new RandomjColumnVisitor(pagebuilder, task, rowNumber, columnOptions);
+                RandomjColumnVisitor visitor = new RandomjColumnVisitor(pagebuilder, task, rowNumber, columnOptions, columnSchemas);
                 schema.visitColumns(visitor);
                 pagebuilder.addRecord();
             });
@@ -92,6 +97,28 @@ public class RandomjInputPlugin
             lengthMap.put(column, miniMap);
         }
         return lengthMap;
+    }
+
+    HashMap<Column, List<JsonNode>> getColumnSchemas(PluginTask task)
+    {
+        SchemaConfig schemaConfig = task.getSchema();
+        Schema schema = schemaConfig.toSchema();
+        HashMap<Column, List<JsonNode>> schemaMap = new HashMap<>();
+        for (Column column : schema.getColumns()) {
+            String schemaString = schemaConfig
+                    .getColumn(column.getIndex())
+                    .getOption().get(String.class, "schema", "");
+            if (!schemaString.isEmpty()) {
+                try {
+                    List<JsonNode> jsonNodes = new ObjectMapper().readValue(schemaString, new TypeReference<List<JsonNode>>() {});
+                    schemaMap.put(column, jsonNodes);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return schemaMap;
     }
 
     @Override
