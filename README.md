@@ -14,7 +14,7 @@ Original: [kumagi/embulk\-input\-random](https://github.com/kumagi/embulk-input-
 * **Cleanup supported**: no
 * **Guess supported**: no
 
-## Install 
+## Install
 
 ``` shell
 % embulk gem install embulk-input-randomj
@@ -59,6 +59,25 @@ in:
       - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
 ```
 
+Add `null_rate` option (from 0.4.0)
+
+This configuration is that inserted `null` into `price` filed with a probability `8` of 10000.
+
+```yaml
+in:
+    type: randomj
+    rows: 16
+    threads: 1
+    primary_key: myid
+    schema:
+      - {name: myid,     type: long}
+      - {name: named,    type: string, length: 12}
+      - {name: price,    type: long, max_value: 1080, min_value: 100, null_rate: 8}
+      - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
+```
+
+
+
 ## Usage
 
 ### Example1
@@ -80,7 +99,7 @@ in:
       - {name: score,    type: long}
       - {name: time,     type: timestamp, format: '%Y-%m-%d %H:%M:%S'}
       - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
-  
+
   out:
     type: stdout
 
@@ -116,7 +135,7 @@ in:
 
 - `named_s` return string with length 8
 - `score` return value between `100~255`
-- `rate` return value between `-100~100` 
+- `rate` return value between `-100~100`
 
 ```shell
 
@@ -176,7 +195,7 @@ $ ./gradlew gem  # -t to watch change of files and rebuild continuously
 ```
 
 ```
-$ ./gradlew build && ./gradlew classpath 
+$ ./gradlew build && ./gradlew classpath
 $ embulk run -I lib config/example.yml     
 ```
 
