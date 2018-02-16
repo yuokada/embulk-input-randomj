@@ -13,6 +13,8 @@ in:
     - {name: score,    type: long, max_value: 255, min_value: 100}
     - {name: time,     type: timestamp, format: '%Y-%m-%d %H:%M:%S'}
     - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
+    - {name: json_obj, type: json, schema: '[{"name": "obj1", "type": "object", "items": [{"name": "key1", "type": "string"}, {"name": "key2", "type": "number"} ] }]' }
+    - {name: json_key, type: json, schema: '[{"name": "baz", "type": "array", "items": {"type": "string", "size": 1}}]' }
 
 out:
   type: stdout
