@@ -175,7 +175,7 @@ public class RandomjColumnVisitor
             pageBuilder.setJson(column, jsonParser.parse(mapper.writeValueAsString(map)));
         }
         catch (JsonProcessingException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // NOSONAR
         }
     }
 

@@ -56,14 +56,14 @@ public class JsonColumnVisitor
         map.put(key, generator.generate(8));
     }
 
-    public void arrayNode(JsonNode node)
+    public void arrayNode(JsonNode node) // NOSONAR
     {
         String key = node.get("name").asText();
         String dataType = node.get(ITEMS).get("type").asText();
         int arraySize = node.get(ITEMS).get("size").asInt(1);
         SupportedJsonObject jtype = SupportedJsonObject.valueOf(dataType.toUpperCase());
         switch (jtype) {
-            case BOOLEAN: {
+            case BOOLEAN: { // NOSONAR
                 List<Boolean> m = new ArrayList<>();
                 for (int i = 0; i < arraySize; i++) {
                     if (Math.random() < 0.5) {
@@ -76,7 +76,7 @@ public class JsonColumnVisitor
                 map.put(key, m);
                 break;
             }
-            case INTEGER: {
+            case INTEGER: { // NOSONAR
                 ArrayList<Integer> m = new ArrayList<>();
                 for (int i = 0; i < arraySize; i++) {
                     m.add(rnd.nextInt(100));
@@ -84,7 +84,7 @@ public class JsonColumnVisitor
                 map.put(key, m);
                 break;
             }
-            case NUMBER: {
+            case NUMBER: { // NOSONAR
                 ArrayList<Number> m = new ArrayList<>();
                 for (int i = 0; i < arraySize; i++) {
                     m.add(rnd.nextDouble() * 100);
@@ -92,7 +92,7 @@ public class JsonColumnVisitor
                 map.put(key, m);
                 break;
             }
-            case STRING: {
+            case STRING: { // NOSONAR
                 int length = 8;
                 ArrayList<String> m = new ArrayList<>();
                 for (int i = 0; i < arraySize; i++) {
