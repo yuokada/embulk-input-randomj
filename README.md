@@ -45,23 +45,10 @@ in:
       - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
 ```
 
-Add `length`, `max_value`, `min_value` option (from 0.3.0)
-```yaml
-in:
-    type: randomj
-    rows: 16
-    threads: 1
-    primary_key: myid
-    schema:
-      - {name: myid,     type: long}
-      - {name: named,    type: string, length: 12}
-      - {name: price,    type: long, max_value: 1080, min_value: 100}
-      - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
-```
-
-Add `null_rate` option (from 0.4.0)
-
-This configuration is that inserted `null` into `price` filed with a probability `8` of 10000.
+- Add `length`, `max_value`, `min_value` option (from 0.3.0)
+- Add `null_rate` option (from 0.4.0)  
+  This configuration is that inserted `null` into `price` filed with a probability `8` of 10000.
+- Support json type (from 0.5.0)
 
 ```yaml
 in:
@@ -74,8 +61,8 @@ in:
       - {name: named,    type: string, length: 12}
       - {name: price,    type: long, max_value: 1080, min_value: 100, null_rate: 8}
       - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
+      - {name: json_key, type: json, schema: '[{"name": "baz", "type": "array", "items": {"type": "string", "size": 1}}]' }
 ```
-
 
 
 ## Usage
@@ -201,6 +188,10 @@ $ embulk run -I lib config/example.yml
 
 
 ## ChangeLog
+
+### 0.5.0
+
+- Support `json` datatype
 
 ### v0.4
 
