@@ -1,14 +1,20 @@
 package org.embulk.input.randomj;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 import org.embulk.spi.Column;
 import org.embulk.spi.ColumnVisitor;
 import org.embulk.spi.PageBuilder;
+import org.embulk.spi.json.JsonParser;
 import org.embulk.spi.time.Timestamp;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -20,25 +26,33 @@ public class RandomjColumnVisitor
     private final Integer row;
     private final Random rnd;
     private final Map<Column, Map<String, Integer>> columnOptions;
+    private final Map<Column, List<JsonNode>> schemaOptions;
     private final RandomStringGenerator generator = new RandomStringGenerator.Builder()
             .withinRange('0', 'z')
             .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
             .build();
     private final ZoneId zoneId = ZoneId.systemDefault();
+    private final JsonParser jsonParser = new JsonParser();
+    private final ObjectMapper mapper = new ObjectMapper();
 
-    public RandomjColumnVisitor(PageBuilder pageBuilder, PluginTask task, Integer row, Map<Column, Map<String, Integer>> columnOptions)
+    private static final String NULL_RATE = "null_rate";
+
+    public RandomjColumnVisitor(PageBuilder pageBuilder, PluginTask task, Integer row,
+            Map<Column, Map<String, Integer>> columnOptions,
+            Map<Column, List<JsonNode>> schemaOptions)
     {
         this.task = task;
         this.pageBuilder = pageBuilder;
         this.row = row;
         this.columnOptions = columnOptions;
         this.rnd = new Random();
+        this.schemaOptions = schemaOptions;
     }
 
     @Override
     public void booleanColumn(Column column)
     {
-        Integer nrate = columnOptions.get(column).get("null_rate");
+        Integer nrate = columnOptions.get(column).get(NULL_RATE);
         if (Math.random() < (double) nrate / 10000) {
             pageBuilder.setNull(column);
         }
@@ -60,7 +74,7 @@ public class RandomjColumnVisitor
             pageBuilder.setLong(column, row);
         }
         else {
-            Integer nrate = columnOptions.get(column).get("null_rate");
+            Integer nrate = columnOptions.get(column).get(NULL_RATE);
             if (Math.random() < (double) nrate / 10000) {
                 pageBuilder.setNull(column);
             }
@@ -86,7 +100,7 @@ public class RandomjColumnVisitor
     @Override
     public void doubleColumn(Column column)
     {
-        Integer nrate = columnOptions.get(column).get("null_rate");
+        Integer nrate = columnOptions.get(column).get(NULL_RATE);
         if (Math.random() < (double) nrate / 10000) {
             pageBuilder.setNull(column);
         }
@@ -112,7 +126,7 @@ public class RandomjColumnVisitor
     @Override
     public void stringColumn(Column column)
     {
-        Integer nrate = columnOptions.get(column).get("null_rate");
+        Integer nrate = columnOptions.get(column).get(NULL_RATE);
         if (Math.random() < (double) nrate / 10000) {
             pageBuilder.setNull(column);
         }
@@ -130,7 +144,7 @@ public class RandomjColumnVisitor
     @Override
     public void timestampColumn(Column column)
     {
-        Integer nrate = columnOptions.get(column).get("null_rate");
+        Integer nrate = columnOptions.get(column).get(NULL_RATE);
         if (Math.random() < (double) nrate / 10000) {
             pageBuilder.setNull(column);
         }
@@ -149,6 +163,45 @@ public class RandomjColumnVisitor
     @Override
     public void jsonColumn(Column column)
     {
-        throw new UnsupportedOperationException("orc output plugin does not support json type");
+        Map<String, Object> map = new HashMap<>();
+        JsonColumnVisitor visitor = new JsonColumnVisitor(map);
+
+        List<JsonNode> nodes = schemaOptions.get(column);
+        for (JsonNode node : nodes) {
+            visit(node, visitor);
+        }
+
+        try {
+            pageBuilder.setJson(column, jsonParser.parse(mapper.writeValueAsString(map)));
+        }
+        catch (JsonProcessingException e) {
+            e.printStackTrace(); // NOSONAR
+        }
+    }
+
+    private void visit(JsonNode node, JsonColumnVisitor visitor)
+    {
+        SupportedJsonObject object = SupportedJsonObject.valueOf(node.get("type").asText().toUpperCase());
+        if (object.equals(SupportedJsonObject.BOOLEAN)) {
+            visitor.booleanNode(node);
+        }
+        else if (object.equals(SupportedJsonObject.NUMBER)) {
+            visitor.doubleNode(node);
+        }
+        else if (object.equals(SupportedJsonObject.INTEGER)) {
+            visitor.integerNode(node);
+        }
+        else if (object.equals(SupportedJsonObject.STRING)) {
+            visitor.stringNode(node);
+        }
+        else if (object.equals(SupportedJsonObject.ARRAY)) {
+            visitor.arrayNode(node);
+        }
+        else if (object.equals(SupportedJsonObject.OBJECT)) {
+            visitor.objectNode(node);
+        }
+        else {
+            throw new UnsupportedOperationException("randomj input plugin does not support json-data type");
+        }
     }
 }
