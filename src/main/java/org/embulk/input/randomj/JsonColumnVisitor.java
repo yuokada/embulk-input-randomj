@@ -12,7 +12,6 @@ import java.util.Random;
 
 public class JsonColumnVisitor
 {
-
     private final Map<String, Object> map;
     private final Random rnd = new Random();
     private final RandomStringGenerator generator = new RandomStringGenerator.Builder()
