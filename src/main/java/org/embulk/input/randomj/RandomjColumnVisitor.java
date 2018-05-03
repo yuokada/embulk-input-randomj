@@ -3,6 +3,8 @@ package org.embulk.input.randomj;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 import org.embulk.spi.Column;
@@ -11,8 +13,13 @@ import org.embulk.spi.PageBuilder;
 import org.embulk.spi.json.JsonParser;
 import org.embulk.spi.time.Timestamp;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +41,19 @@ public class RandomjColumnVisitor
     private final ZoneId zoneId = ZoneId.systemDefault();
     private final JsonParser jsonParser = new JsonParser();
     private final ObjectMapper mapper = new ObjectMapper();
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter
+            .ofPattern("yyyyMMdd")
+            .withResolverStyle(ResolverStyle.LENIENT);
+    private static final long cacheSize = 64;
+    private static final Cache<String, ZonedDateTime> zonedDateTimeCache = CacheBuilder
+            .newBuilder()
+            .maximumSize(cacheSize)
+            .build();
+    private static final Cache<String, Long> durationCache = CacheBuilder
+            .newBuilder()
+            .maximumSize(cacheSize)
+            .build();
 
     private static final String NULL_RATE = "null_rate";
 
@@ -149,15 +169,56 @@ public class RandomjColumnVisitor
             pageBuilder.setNull(column);
         }
         else {
-            final double randd = Math.random();
-            LocalDateTime randomDate = LocalDateTime.now()
-                    .plusDays((long) (randd * 100))
-                    .plusSeconds((long) (randd * 1000000));
-            Timestamp timestamp = Timestamp.ofEpochSecond(
-                    randomDate.atZone(zoneId).toEpochSecond()
-            );
-            pageBuilder.setTimestamp(column, timestamp);
+            ZonedDateTime start = getZonedDatetime(column, "start_date");
+            ZonedDateTime end = getZonedDatetime(column, "end_date");
+            long duration = getDuration(column, start, end);
+            if (duration != 0) {
+                int plus = rnd.nextInt((int) duration);
+                Timestamp timestamp = Timestamp.ofEpochSecond(
+                        start.plusSeconds(plus).toEpochSecond()
+                );
+                pageBuilder.setTimestamp(column, timestamp);
+            }
+            else {
+                final double randd = Math.random();
+                LocalDateTime randomDate = LocalDateTime.now()
+                        .plusDays((long) (randd * 100))
+                        .plusSeconds((long) (randd * 1000000));
+                Timestamp timestamp = Timestamp.ofEpochSecond(
+                        randomDate.atZone(zoneId).toEpochSecond()
+                );
+                pageBuilder.setTimestamp(column, timestamp);
+            }
         }
+    }
+
+    private ZonedDateTime getZonedDatetime(Column column, String dateString)
+    {
+        String cacheKey = String.format("%s::%s", column.getName(), dateString);
+        ZonedDateTime start = zonedDateTimeCache.getIfPresent(cacheKey);
+        if (start == null) {
+            Integer startDate = columnOptions.get(column).getOrDefault(dateString, null);
+            if (startDate == null) {
+                start = LocalDate.now().atStartOfDay(zoneId);
+            }
+            else {
+                start = LocalDate.parse(startDate.toString(), formatter)
+                        .atStartOfDay(zoneId);
+            }
+            zonedDateTimeCache.put(cacheKey, start);
+        }
+
+        return start;
+    }
+
+    private long getDuration(Column column, ZonedDateTime start, ZonedDateTime end)
+    {
+        Long duration = durationCache.getIfPresent(column.getName());
+        if (duration == null) {
+            duration = Duration.between(start, end).getSeconds();
+            durationCache.put(column.getName(), duration);
+        }
+        return duration;
     }
 
     @Override
@@ -181,7 +242,8 @@ public class RandomjColumnVisitor
 
     private void visit(JsonNode node, JsonColumnVisitor visitor)
     {
-        SupportedJsonObject object = SupportedJsonObject.valueOf(node.get("type").asText().toUpperCase());
+        SupportedJsonObject object = SupportedJsonObject
+                .valueOf(node.get("type").asText().toUpperCase());
         if (object.equals(SupportedJsonObject.BOOLEAN)) {
             visitor.booleanNode(node);
         }
@@ -201,7 +263,8 @@ public class RandomjColumnVisitor
             visitor.objectNode(node);
         }
         else {
-            throw new UnsupportedOperationException("randomj input plugin does not support json-data type");
+            throw new UnsupportedOperationException(
+                    "randomj input plugin does not support json-data type");
         }
     }
 }

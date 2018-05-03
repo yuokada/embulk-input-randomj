@@ -94,6 +94,9 @@ public class RandomjInputPlugin
             miniMap.put("null_rate", c.getOption().get(Integer.class, "null_rate", 0));
             miniMap.put("max_value", c.getOption().get(Integer.class, "max_value", null));
             miniMap.put("min_value", c.getOption().get(Integer.class, "min_value", null));
+            // For datetime
+            miniMap.put("start_date", c.getOption().get(Integer.class, "start_date", null));
+            miniMap.put("end_date", c.getOption().get(Integer.class, "end_date", null));
             lengthMap.put(column, miniMap);
         }
         return lengthMap;
