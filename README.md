@@ -193,6 +193,10 @@ $ embulk run -I lib config/example.yml
 
 ## ChangeLog
 
+### 0.5.1
+
+- Support start_date & end_date key with Timestamp field.
+
 ### 0.5.0
 
 - Support `json` datatype
