@@ -11,7 +11,7 @@ in:
     - {name: x_flag,   type: boolean}
     - {name: rate,     type: double, max_value: 100, min_value: -100}
     - {name: score,    type: long, max_value: 255, min_value: 100}
-    - {name: time,     type: timestamp, format: '%Y-%m-%d %H:%M:%S'}
+    - {name: time,     type: timestamp, format: '%Y-%m-%d %H:%M:%S', start_date: 20171221, end_date: 20171231}
     - {name: purchase, type: timestamp, format: '%Y/%m/%d'}
     - {name: json_obj, type: json, schema: '[{"name": "obj1", "type": "object", "items": [{"name": "key1", "type": "string"}, {"name": "key2", "type": "number"} ] }]' }
     - {name: json_key, type: json, schema: '[{"name": "baz", "type": "array", "items": {"type": "string", "size": 1}}]' }

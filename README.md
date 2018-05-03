@@ -49,6 +49,10 @@ in:
 - Add `null_rate` option (from 0.4.0)  
   This configuration is that inserted `null` into `price` filed with a probability `8` of 10000.
 - Support json type (from 0.5.0)
+- Support `start_date` & `end_date` key in **Timestamp** field.
+
+    - Ex1. `{name: created_at, type: timestamp, format: '%Y-%m-%d %H:%M:%S', start_date: 20180331, end_date: 20180430}`
+    - Ex2. `{name: created_at, type: timestamp, format: '%Y-%m-%d %H:%M:%S', start_date: 20180331}`
 
 ```yaml
 in:
