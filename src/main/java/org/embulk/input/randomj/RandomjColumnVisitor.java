@@ -91,7 +91,8 @@ public class RandomjColumnVisitor
     {
         final String pk = task.getPrimaryKey();
         if (column.getName().equals(pk)) {
-            pageBuilder.setLong(column, row);
+            Integer pki = columnOptions.get(column).get("pk_offset");
+            pageBuilder.setLong(column, pki == null ? row : row + pki);
         }
         else {
             Integer nullRate = columnOptions.get(column).get(NULL_RATE);
