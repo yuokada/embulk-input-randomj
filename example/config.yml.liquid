@@ -5,7 +5,7 @@ in:
   # default_timezone: Asia/Tokyo
   primary_key: myid
   schema:
-    - {name: myid,     type: long}
+    - {name: myid,     type: long, pk_offset: 1000000}
     - {name: named,    type: string}
     - {name: named_s,  type: string, length: 8}
     - {name: x_flag,   type: boolean}
