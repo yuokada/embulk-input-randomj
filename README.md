@@ -200,7 +200,7 @@ $ embulk run -I lib config/example.yml
 
 ### 0.5.0
 
-- Support `json` datatype
+- Support `json` datatype (Experimental Feature)
 
 ### v0.4
 
