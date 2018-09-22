@@ -35,6 +35,17 @@ dependencies {
     testCompile "junit:junit:4.+"
 }
 
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/main/scala', 'src/main/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
+
 task classpath(type: Copy, dependsOn: ["jar"]) {
     doFirst { file("classpath").deleteDir() }
     from (configurations.runtime - configurations.provided + files(jar.archivePath))
