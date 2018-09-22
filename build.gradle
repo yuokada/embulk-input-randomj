@@ -25,7 +25,7 @@ targetCompatibility = 1.8
 dependencies {
     compile  "org.embulk:embulk-core:0.8.28"
     provided "org.embulk:embulk-core:0.8.28"
-    compile  "org.scala-lang:scala-library:2.11.+"
+    compile  "org.scala-lang:scala-library:2.12.+"
     // compile "YOUR_JAR_DEPENDENCY_GROUP:YOUR_JAR_DEPENDENCY_MODULE:YOUR_JAR_DEPENDENCY_VERSION"
 
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.4'
