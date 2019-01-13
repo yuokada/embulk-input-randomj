@@ -30,7 +30,7 @@ public class RandomjColumnVisitor
 {
     private final PageBuilder pageBuilder;
     private final PluginTask task;
-    private final Integer row;
+    private final int row;
     private final Random rnd;
     private final Map<Column, Map<String, Integer>> columnOptions;
     private final Map<Column, List<JsonNode>> schemaOptions;
@@ -57,7 +57,7 @@ public class RandomjColumnVisitor
 
     private static final String NULL_RATE = "null_rate";
 
-    public RandomjColumnVisitor(PageBuilder pageBuilder, PluginTask task, Integer row,
+    public RandomjColumnVisitor(PageBuilder pageBuilder, PluginTask task, int row,
             Map<Column, Map<String, Integer>> columnOptions,
             Map<Column, List<JsonNode>> schemaOptions)
     {
@@ -72,8 +72,8 @@ public class RandomjColumnVisitor
     @Override
     public void booleanColumn(Column column)
     {
-        Integer nrate = columnOptions.get(column).get(NULL_RATE);
-        if (Math.random() < (double) nrate / 10000) {
+        Integer nullRate = columnOptions.get(column).get(NULL_RATE);
+        if (Math.random() < (double) nullRate / 10000) {
             pageBuilder.setNull(column);
         }
         else {
@@ -94,8 +94,8 @@ public class RandomjColumnVisitor
             pageBuilder.setLong(column, row);
         }
         else {
-            Integer nrate = columnOptions.get(column).get(NULL_RATE);
-            if (Math.random() < (double) nrate / 10000) {
+            Integer nullRate = columnOptions.get(column).get(NULL_RATE);
+            if (Math.random() < (double) nullRate / 10000) {
                 pageBuilder.setNull(column);
             }
             else {
@@ -103,7 +103,7 @@ public class RandomjColumnVisitor
                 Integer min = columnOptions.get(column).get("min_value");
                 if (max != null) {
                     if (min != null) {
-                        Integer s = min + rnd.nextInt((max - min));
+                        int s = min + rnd.nextInt((max - min));
                         pageBuilder.setLong(column, s);
                     }
                     else {
@@ -120,8 +120,8 @@ public class RandomjColumnVisitor
     @Override
     public void doubleColumn(Column column)
     {
-        Integer nrate = columnOptions.get(column).get(NULL_RATE);
-        if (Math.random() < (double) nrate / 10000) {
+        Integer nullRate = columnOptions.get(column).get(NULL_RATE);
+        if (Math.random() < (double) nullRate / 10000) {
             pageBuilder.setNull(column);
         }
         else {
@@ -129,11 +129,11 @@ public class RandomjColumnVisitor
             Integer min = columnOptions.get(column).get("min_value");
             if (max != null) {
                 if (min != null) {
-                    Double d = min + rnd.nextInt((max - min) - 1) + rnd.nextDouble();
+                    double d = min + rnd.nextInt((max - min) - 1) + rnd.nextDouble();
                     pageBuilder.setDouble(column, d);
                 }
                 else {
-                    Double d = rnd.nextInt(max - 1) + rnd.nextDouble();
+                    double d = rnd.nextInt(max - 1) + rnd.nextDouble();
                     pageBuilder.setDouble(column, d);
                 }
             }
@@ -146,8 +146,8 @@ public class RandomjColumnVisitor
     @Override
     public void stringColumn(Column column)
     {
-        Integer nrate = columnOptions.get(column).get(NULL_RATE);
-        if (Math.random() < (double) nrate / 10000) {
+        Integer nullRate = columnOptions.get(column).get(NULL_RATE);
+        if (Math.random() < (double) nullRate / 10000) {
             pageBuilder.setNull(column);
         }
         else {
@@ -164,8 +164,8 @@ public class RandomjColumnVisitor
     @Override
     public void timestampColumn(Column column)
     {
-        Integer nrate = columnOptions.get(column).get(NULL_RATE);
-        if (Math.random() < (double) nrate / 10000) {
+        Integer nullRate = columnOptions.get(column).get(NULL_RATE);
+        if (Math.random() < (double) nullRate / 10000) {
             pageBuilder.setNull(column);
         }
         else {
@@ -180,10 +180,10 @@ public class RandomjColumnVisitor
                 pageBuilder.setTimestamp(column, timestamp);
             }
             else {
-                final double randd = Math.random();
+                double randDouble = Math.random();
                 LocalDateTime randomDate = LocalDateTime.now()
-                        .plusDays((long) (randd * 100))
-                        .plusSeconds((long) (randd * 1000000));
+                        .plusDays((long) (randDouble * 100))
+                        .plusSeconds((long) (randDouble * 1000000));
                 Timestamp timestamp = Timestamp.ofEpochSecond(
                         randomDate.atZone(zoneId).toEpochSecond()
                 );
