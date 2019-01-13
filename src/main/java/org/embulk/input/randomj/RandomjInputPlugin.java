@@ -90,6 +90,8 @@ public class RandomjInputPlugin
         for (Column column : schema.getColumns()) {
             HashMap<String, Integer> miniMap = new HashMap<>();
             ColumnConfig c = schemaConfig.getColumn(column.getIndex());
+
+            miniMap.put("pk_offset", c.getOption().get(Integer.class, "pk_offset", null));
             miniMap.put("length", c.getOption().get(Integer.class, "length", 0));
             miniMap.put("null_rate", c.getOption().get(Integer.class, "null_rate", 0));
             miniMap.put("max_value", c.getOption().get(Integer.class, "max_value", null));
