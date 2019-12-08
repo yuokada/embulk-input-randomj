@@ -1,7 +1,6 @@
 # Randomj input plugin for Embulk
 
 [![Gem Version](https://badge.fury.io/rb/embulk-input-randomj.svg)](https://badge.fury.io/rb/embulk-input-randomj)
-[![Build Status](https://travis-ci.org/yuokada/embulk-input-randomj.svg?branch=master)](https://travis-ci.org/yuokada/embulk-input-randomj)
 [![Build Status](https://github.com/yuokada/embulk-input-randomj/workflows/Java%20CI/badge.svg)](https://github.com/yuokada/embulk-input-randomj/actions)
 
 Embulk plugin for generate dummy records by Java.
