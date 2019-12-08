@@ -2,6 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/embulk-input-randomj.svg)](https://badge.fury.io/rb/embulk-input-randomj)
 [![Build Status](https://travis-ci.org/yuokada/embulk-input-randomj.svg?branch=master)](https://travis-ci.org/yuokada/embulk-input-randomj)
+[![Build Status](https://github.com/yuokada/embulk-input-randomj/workflows/Java%20CI/badge.svg)](https://github.com/yuokada/embulk-input-randomj/actions)
 
 Embulk plugin for generate dummy records by Java.
 
@@ -46,9 +47,9 @@ in:
 ```
 
 - Add `length`, `max_value`, `min_value` option (from 0.3.0)
-- Add `null_rate` option (from 0.4.0)  
+- Add `null_rate` option (from 0.4.0)
   This configuration is that inserted `null` into `price` filed with a probability `8` of 10000.
-- Support json type (from 0.5.0)  
+- Support json type (from 0.5.0)
   Experimental Feature
 - Support `start_date` & `end_date` key in **Timestamp** field.
 
@@ -188,7 +189,7 @@ $ ./gradlew gem  # -t to watch change of files and rebuild continuously
 
 ```
 $ ./gradlew build && ./gradlew classpath
-$ embulk run -I lib config/example.yml     
+$ embulk run -I lib config/example.yml
 ```
 
 
