@@ -20,3 +20,6 @@ jobs:
       run: |
         ./gradlew --info checkstyle
         ./gradlew --info check
+    - name: Findbugs
+      run: |
+        ./gradlew findbugsMain findbugsTest
