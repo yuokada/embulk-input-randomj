@@ -3,7 +3,6 @@ plugins {
     id "com.github.jruby-gradle.base" version "0.1.5"
     id "java"
     id "checkstyle"
-    // id "spotbugs"
     id "com.github.spotbugs" version "3.0.0"
     id "org.sonarqube" version "2.5"
 }
@@ -22,8 +21,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile  "org.embulk:embulk-core:0.8.39"
-    provided "org.embulk:embulk-core:0.8.39"
+    compile  "org.embulk:embulk-core:0.9.21"
+    provided "org.embulk:embulk-core:0.9.21"
     // compile "YOUR_JAR_DEPENDENCY_GROUP:YOUR_JAR_DEPENDENCY_MODULE:YOUR_JAR_DEPENDENCY_VERSION"
 
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.4'
