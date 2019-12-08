@@ -23,8 +23,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile  "org.embulk:embulk-core:0.8.28"
-    provided "org.embulk:embulk-core:0.8.28"
+    compile  "org.embulk:embulk-core:0.8.39"
+    provided "org.embulk:embulk-core:0.8.39"
     compile  "org.scala-lang:scala-library:2.12.+"
     // compile "YOUR_JAR_DEPENDENCY_GROUP:YOUR_JAR_DEPENDENCY_MODULE:YOUR_JAR_DEPENDENCY_VERSION"
 
