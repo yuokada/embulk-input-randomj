@@ -3,7 +3,8 @@ plugins {
     id "com.github.jruby-gradle.base" version "0.1.5"
     id "java"
     id "checkstyle"
-    id "findbugs"
+    // id "spotbugs"
+    id "com.github.spotbugs" version "3.0.0"
     id "org.sonarqube" version "2.5"
 }
 import com.github.jrubygradle.JRubyExec
