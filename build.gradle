@@ -21,13 +21,13 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compile  "org.embulk:embulk-core:0.9.21"
-    provided "org.embulk:embulk-core:0.9.21"
+    compile  "org.embulk:embulk-core:0.9.23"
+    provided "org.embulk:embulk-core:0.9.23"
     // compile "YOUR_JAR_DEPENDENCY_GROUP:YOUR_JAR_DEPENDENCY_MODULE:YOUR_JAR_DEPENDENCY_VERSION"
 
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.10.4'
 
-    compile 'org.apache.commons:commons-text:1.1'
+    compile 'org.apache.commons:commons-text:1.8'
 
     testCompile "junit:junit:4.+"
 }
