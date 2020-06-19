@@ -14,12 +14,6 @@ repositories {
   jcenter()
 }
 
-embulkPlugin {
-  mainClass = "io.github.yuokada.embulk.input.randomj.RandomjInputPlugin"
-  category = "input"
-  type = "randomj"
-}
-
 group = "io.github.yuokada"
 version = "0.5.1"
 description = "Embulk plugin for generate dummy records by Java."
@@ -27,19 +21,28 @@ description = "Embulk plugin for generate dummy records by Java."
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+tasks.withType(JavaCompile) {
+  options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+}
+
 dependencies {
-  compileOnly "org.embulk:embulk-core:0.9.23"
-  // compile "YOUR_JAR_DEPENDENCY_GROUP:YOUR_JAR_DEPENDENCY_MODULE:YOUR_JAR_DEPENDENCY_VERSION"
+  compileOnly("org.embulk:embulk-core:0.9.23") {
+    exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
+    exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
+    exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
+    exclude group: 'org.apache.commons', module: 'commons-lang3'
+  }
 
   compile 'com.fasterxml.jackson.core:jackson-databind:2.10.4'
-
   compile 'org.apache.commons:commons-text:1.8'
 
   testCompile "junit:junit:4.+"
 }
 
-tasks.withType(JavaCompile) {
-  options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+embulkPlugin {
+  mainClass = "io.github.yuokada.embulk.input.randomj.RandomjInputPlugin"
+  category = "input"
+  type = "randomj"
 }
 
 checkstyle {
@@ -74,7 +77,7 @@ task checkstyle(type: Checkstyle) {
 
 gem {
   from("LICENSE.txt")
-  authors = ["Yukihiro Okada"]
+  authors = ["yuokada"]
   email = ["ykhrokada+rubygems@gmail.com"]
   summary = "Randomj input plugin for Embulk"
   homepage = "https://github.com/yuokada/embulk-input-randomj"
