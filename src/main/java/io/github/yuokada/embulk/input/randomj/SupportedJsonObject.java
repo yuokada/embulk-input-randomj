@@ -1,4 +1,4 @@
-package org.embulk.input.randomj;
+package io.github.yuokada.embulk.input.randomj;
 
 public enum SupportedJsonObject
 {
