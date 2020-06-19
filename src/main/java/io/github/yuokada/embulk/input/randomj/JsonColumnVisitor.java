@@ -1,4 +1,4 @@
-package org.embulk.input.randomj;
+package io.github.yuokada.embulk.input.randomj;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.text.CharacterPredicates;
