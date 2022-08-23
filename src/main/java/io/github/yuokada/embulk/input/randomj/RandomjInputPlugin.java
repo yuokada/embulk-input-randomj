@@ -3,6 +3,7 @@ package io.github.yuokada.embulk.input.randomj;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.yuokada.embulk.input.randomj.visitor.RandomjColumnVisitor;
 import org.embulk.config.ConfigDiff;
 import org.embulk.config.ConfigSource;
 import org.embulk.config.TaskReport;

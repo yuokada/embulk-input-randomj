@@ -1,17 +1,19 @@
-package io.github.yuokada.embulk.input.randomj;
+package io.github.yuokada.embulk.input.randomj.visitor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import io.github.yuokada.embulk.input.randomj.PluginTask;
+import io.github.yuokada.embulk.input.randomj.SupportedJsonObject;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 import org.embulk.spi.Column;
 import org.embulk.spi.ColumnVisitor;
 import org.embulk.spi.PageBuilder;
-import org.embulk.spi.json.JsonParser;
 import org.embulk.spi.time.Timestamp;
+import org.embulk.util.json.JsonParser;
 
 import java.time.Duration;
 import java.time.LocalDate;
