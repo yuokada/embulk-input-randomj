@@ -11,11 +11,10 @@ plugins {
 
 repositories {
   mavenCentral()
-  jcenter()
 }
 
 group = "io.github.yuokada"
-version = "0.5.1"
+version = "0.6.0"
 description = "Embulk plugin for generate dummy records by Java."
 
 sourceCompatibility = 1.8
@@ -26,7 +25,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-  compileOnly("org.embulk:embulk-core:0.9.23") {
+  compileOnly("org.embulk:embulk-core:0.10.36") {
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
