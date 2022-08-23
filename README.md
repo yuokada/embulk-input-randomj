@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/embulk-input-randomj.svg)](https://badge.fury.io/rb/embulk-input-randomj)
 [![Build Status](https://github.com/yuokada/embulk-input-randomj/workflows/Java%20CI/badge.svg)](https://github.com/yuokada/embulk-input-randomj/actions)
 
-Embulk plugin for generate dummy records by Java.
+Embulk plugin for dummy records generation written in Java.
 
 Original: [kumagi/embulk\-input\-random](https://github.com/kumagi/embulk-input-random)
 
