@@ -12,10 +12,10 @@ import org.apache.commons.text.RandomStringGenerator;
 import org.embulk.spi.Column;
 import org.embulk.spi.ColumnVisitor;
 import org.embulk.spi.PageBuilder;
-import org.embulk.spi.time.Timestamp;
 import org.embulk.util.json.JsonParser;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -177,20 +177,20 @@ public class RandomjColumnVisitor
             long duration = getDuration(column, start, end);
             if (duration != 0) {
                 int plus = rnd.nextInt((int) duration);
-                Timestamp timestamp = Timestamp.ofEpochSecond(
+                Instant instant = Instant.ofEpochSecond(
                         start.plusSeconds(plus).toEpochSecond()
                 );
-                pageBuilder.setTimestamp(column, timestamp);
+                pageBuilder.setTimestamp(column, instant);
             }
             else {
                 double randDouble = Math.random();
                 LocalDateTime randomDate = LocalDateTime.now()
                         .plusDays((long) (randDouble * 100))
                         .plusSeconds((long) (randDouble * 1000000));
-                Timestamp timestamp = Timestamp.ofEpochSecond(
+                Instant instant = Instant.ofEpochSecond(
                         randomDate.atZone(zoneId).toEpochSecond()
                 );
-                pageBuilder.setTimestamp(column, timestamp);
+                pageBuilder.setTimestamp(column, instant);
             }
         }
     }
