@@ -32,7 +32,7 @@ dependencies {
     exclude group: 'org.apache.commons', module: 'commons-lang3'
   }
 
-  compile 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+  compile 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
   compile 'org.apache.commons:commons-text:1.9'
 
   testImplementation "junit:junit:4.+"
