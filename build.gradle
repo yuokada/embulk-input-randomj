@@ -25,7 +25,7 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-  compileOnly("org.embulk:embulk-core:0.10.38") {
+  compileOnly("org.embulk:embulk-core:0.10.40") {
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
