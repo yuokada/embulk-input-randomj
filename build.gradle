@@ -61,6 +61,11 @@ task checkstyle(type: Checkstyle) {
   source = sourceSets.main.allJava + sourceSets.test.allJava
 }
 
+spotbugs {
+  ignoreFailures = true
+  excludeFilter = file("spotbugs-exclude.xml")
+}
+
 // publishing {
 //     publications {
 //         embulkPluginMaven(MavenPublication) {  // Publish it with "publishEmbulkPluginMavenPublicationToMavenRepository".
