@@ -205,3 +205,13 @@ $ embulk run -I lib config/example.yml
 ### v0.4
 
 - Support null_rate parameter
+
+----
+
+## Development
+
+### Spotbugs
+
+- [spotbugs/spotbugs\-gradle\-plugin](https://github.com/spotbugs/spotbugs-gradle-plugin)
+- [Filter file — spotbugs 4\.7\.3 documentation](https://spotbugs.readthedocs.io/en/stable/filter.html)
+  - ja: [フィルタファイル — spotbugs 4\.7\.3 ドキュメント](https://spotbugs.readthedocs.io/ja/latest/filter.html)
