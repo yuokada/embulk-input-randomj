@@ -1,6 +1,7 @@
-package io.github.yuokada.embulk.input.randomj;
+package io.github.yuokada.embulk.input.randomj.visitor;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import io.github.yuokada.embulk.input.randomj.SupportedJsonObject;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 

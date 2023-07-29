@@ -1,19 +1,21 @@
-package io.github.yuokada.embulk.input.randomj;
+package io.github.yuokada.embulk.input.randomj.visitor;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import io.github.yuokada.embulk.input.randomj.PluginTask;
+import io.github.yuokada.embulk.input.randomj.SupportedJsonObject;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 import org.embulk.spi.Column;
 import org.embulk.spi.ColumnVisitor;
 import org.embulk.spi.PageBuilder;
-import org.embulk.spi.json.JsonParser;
-import org.embulk.spi.time.Timestamp;
+import org.embulk.util.json.JsonParser;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -175,20 +177,20 @@ public class RandomjColumnVisitor
             long duration = getDuration(column, start, end);
             if (duration != 0) {
                 int plus = rnd.nextInt((int) duration);
-                Timestamp timestamp = Timestamp.ofEpochSecond(
+                Instant instant = Instant.ofEpochSecond(
                         start.plusSeconds(plus).toEpochSecond()
                 );
-                pageBuilder.setTimestamp(column, timestamp);
+                pageBuilder.setTimestamp(column, instant);
             }
             else {
                 double randDouble = Math.random();
                 LocalDateTime randomDate = LocalDateTime.now()
                         .plusDays((long) (randDouble * 100))
                         .plusSeconds((long) (randDouble * 1000000));
-                Timestamp timestamp = Timestamp.ofEpochSecond(
+                Instant instant = Instant.ofEpochSecond(
                         randomDate.atZone(zoneId).toEpochSecond()
                 );
-                pageBuilder.setTimestamp(column, timestamp);
+                pageBuilder.setTimestamp(column, instant);
             }
         }
     }
