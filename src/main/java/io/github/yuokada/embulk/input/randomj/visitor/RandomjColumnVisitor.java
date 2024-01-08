@@ -12,8 +12,9 @@ import org.apache.commons.text.RandomStringGenerator;
 import org.embulk.spi.Column;
 import org.embulk.spi.ColumnVisitor;
 import org.embulk.spi.PageBuilder;
-import org.embulk.util.json.JsonParser;
+import org.embulk.util.json.JsonValueParser;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -41,7 +42,6 @@ public class RandomjColumnVisitor
             .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
             .build();
     private final ZoneId zoneId = ZoneId.systemDefault();
-    private final JsonParser jsonParser = new JsonParser();
     private final ObjectMapper mapper = new ObjectMapper();
 
     private static final DateTimeFormatter formatter = DateTimeFormatter
@@ -236,10 +236,13 @@ public class RandomjColumnVisitor
         }
 
         try {
-            pageBuilder.setJson(column, jsonParser.parse(mapper.writeValueAsString(map)));
+            pageBuilder.setJson(column, JsonValueParser.builder().build(mapper.writeValueAsString(map)).readJsonValue());
         }
         catch (JsonProcessingException e) {
             e.printStackTrace(); // NOSONAR
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
