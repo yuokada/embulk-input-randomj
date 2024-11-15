@@ -10,7 +10,8 @@ plugins {
 }
 
 repositories {
-  mavenCentral()
+  mavenCentral(),
+  maven { url "https://repo.grails.org/grails/core/" }
 }
 
 group = "io.github.yuokada"
