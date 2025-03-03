@@ -13,7 +13,7 @@ plugins {
   id "org.sonarqube" version "4.0.0.2929"
 
   id "maven-publish"
-  id "org.embulk.embulk-plugins" version "0.6.2"
+  id "org.embulk.embulk-plugins" version "0.7.0"
 }
 
 repositories {
@@ -33,13 +33,13 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
-  compileOnly("org.embulk:embulk-core:0.11.2") {
+  compileOnly("org.embulk:embulk-core:0.11.5") {
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-annotations'
     exclude group: 'org.apache.commons', module: 'commons-lang3'
   }
-  compileOnly("org.embulk:embulk-util-json:0.4.0")
+  compileOnly("org.embulk:embulk-util-json:0.5.0")
 
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
   implementation 'org.apache.commons:commons-text:1.12.0'
