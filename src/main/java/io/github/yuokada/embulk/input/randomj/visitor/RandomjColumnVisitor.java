@@ -236,7 +236,7 @@ public class RandomjColumnVisitor
         }
 
         try {
-            pageBuilder.setJson(column, JsonValueParser.builder().build(mapper.writeValueAsString(map)).readJsonValue());
+            pageBuilder.setJson(column, jsonValueParser.readJsonValue(mapper.writeValueAsString(map)));
         }
         catch (JsonProcessingException e) {
             e.printStackTrace(); // NOSONAR
