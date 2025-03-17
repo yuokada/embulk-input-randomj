@@ -60,7 +60,7 @@ embulkPlugin {
 
 checkstyle {
   configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
-  toolVersion = '6.19'
+  toolVersion = '10.21.4'
 }
 checkstyleMain {
   configFile = file("${project.rootDir}/config/checkstyle/default.xml")
