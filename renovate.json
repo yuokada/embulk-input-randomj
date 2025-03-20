@@ -5,9 +5,9 @@
   ],
   "packageRules": [
     {
-      "matchManagers": ["java"],
-      "matchUpdateTypes": ["major"],
-      "enabled": false
+      "matchManagers": ["asdf"],
+      "matchPackagePatterns": ["^java$"],
+      "allowedVersions": "<17.999"
     },
     {
       "matchManagers": ["gradle"],
