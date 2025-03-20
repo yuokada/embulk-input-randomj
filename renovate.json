@@ -5,6 +5,11 @@
   ],
   "packageRules": [
     {
+      "matchManagers": ["java"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
       "matchManagers": ["gradle"],
       "matchPackagePatterns": ["com.google.guava:guava"],
       "enabled": false
