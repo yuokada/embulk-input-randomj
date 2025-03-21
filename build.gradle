@@ -45,7 +45,7 @@ dependencies {
 
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.3'
   implementation 'org.apache.commons:commons-text:1.13.0'
-  implementation 'com.google.guava:guava:33.4.0-jre'
+  implementation 'com.google.guava:guava:33.4.5-jre'
   implementation 'org.msgpack:msgpack-core:0.9.+'
 
   testImplementation "org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION"
