@@ -28,7 +28,7 @@ description = "Embulk plugin for generate dummy records by Java."
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-def JUNIT_VERSION = "5.12.1"
+def JUNIT_VERSION = "5.12.2"
 
 tasks.withType(JavaCompile) {
   options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
