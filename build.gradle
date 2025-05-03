@@ -34,6 +34,11 @@ tasks.withType(JavaCompile) {
   options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
 }
 
+java {
+  withJavadocJar()
+  withSourcesJar()
+}
+
 dependencies {
   compileOnly("org.embulk:embulk-core:0.11.5") {
     exclude group: 'com.fasterxml.jackson.core', module: 'jackson-databind'
