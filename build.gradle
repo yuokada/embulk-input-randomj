@@ -1,4 +1,5 @@
 plugins {
+  // id "com.jfrog.bintray" version "1.8.5"
   id 'java'
   id 'checkstyle'
   id 'com.github.spotbugs' version '6.1.10'
