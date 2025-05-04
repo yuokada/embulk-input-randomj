@@ -17,7 +17,7 @@ java {
 }
 
 group = 'io.github.yuokada'
-version = '0.7.0'
+version = '0.7.0-SNAPSHOT'
 description = 'Embulk plugin for generate dummy records by Java.'
 
 repositories {
