@@ -67,7 +67,7 @@ checkstyleTest {
   configFile = file("${project.rootDir}/config/checkstyle/default.xml")
   ignoreFailures = true
 }
-task checkstyle(type: Checkstyle) {
+tasks.register('checkstyle', Checkstyle) {
   classpath = sourceSets.main.output + sourceSets.test.output
   source = sourceSets.main.allJava + sourceSets.test.allJava
 }
@@ -89,6 +89,19 @@ spotbugs {
 //         }
 //     }
 // }
+
+publishing {
+  publications {
+    embulkPluginMaven(MavenPublication) {
+      from components.java
+    }
+  }
+  repositories {
+    maven {
+      url = "${project.buildDir}/mavenPublishLocal"
+    }
+  }
+}
 
 gem {
   from("LICENSE.txt")
