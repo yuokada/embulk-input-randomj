@@ -25,7 +25,7 @@ jobs:
       run: |
         ./gradlew spotbugsMain spotbugsTest
     - name: publish to Maven Central
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/master'
       # env:
       #   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       #   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
