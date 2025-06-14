@@ -1,0 +1,45 @@
+project:
+  name: embulk-input-randomj
+  description: Embulk plugin for generate dummy records by Java.
+  longDescription: |
+    Embulk plugin for dummy records generation written in Java.
+    Original: https://github.com/kumagi/embulk-input-random
+  website: https://github.com/yuokada/embulk-input-randomj
+  authors:
+    - Yu Okada
+  license: MIT
+  links:
+    homepage: https://github.com/yuokada/embulk-input-randomj
+    scm: https://github.com/yuokada/embulk-input-randomj.git
+  java:
+    groupId: io.github.yuokada
+    version: 0.7.0
+    mainClass: io.github.yuokada.embulk.input.randomj.RandomjInputPlugin
+
+release:
+  github:
+    owner: yuokada
+    name: embulk-input-randomj
+    tagName: '{{projectVersion}}'
+    releaseName: 'v{{projectVersion}}'
+    draft: false
+    prerelease: false
+
+signing:
+  active: ALWAYS
+  armored: true
+
+deploy:
+  maven:
+    active: ALWAYS
+    url: https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+    coordinates:
+      groupId: io.github.yuokada
+      artifactId: embulk-input-randomj
+      version: 0.7.0
+    credentials:
+      username: {{env.OSSRH_USERNAME}}
+      password: {{env.OSSRH_PASSWORD}}
+    sign: true
+    close: true
+    release: true
