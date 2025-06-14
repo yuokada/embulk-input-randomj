@@ -77,18 +77,51 @@ spotbugs {
   excludeFilter = file("spotbugs-exclude.xml")
 }
 
-// publishing {
-//     publications {
-//         embulkPluginMaven(MavenPublication) {  // Publish it with "publishEmbulkPluginMavenPublicationToMavenRepository".
-//             from components.java  // Must be "components.java". The dependency modification works only for it.
-//         }
-//     }
-//     repositories {
-//         maven {
-//             url = "${project.buildDir}/mavenPublishLocal"
-//         }
-//     }
-// }
+// --- Maven Central publish settings ---
+publishing {
+    publications {
+        embulkPluginMaven(MavenPublication) {
+            from components.java
+            groupId = project.group
+            artifactId = 'embulk-input-randomj'
+            version = project.version
+            pom {
+                name = 'embulk-input-randomj'
+                description = 'Embulk plugin for generate dummy records by Java.'
+                url = 'https://github.com/yuokada/embulk-input-randomj'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'yuokada'
+                        name = 'Yu Okada'
+                        email = 'ykhrokada+rubygems@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/yuokada/embulk-input-randomj.git'
+                    developerConnection = 'scm:git:ssh://github.com:yuokada/embulk-input-randomj.git'
+                    url = 'https://github.com/yuokada/embulk-input-randomj'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = findProperty("ossrhUsername") ?: System.getenv("OSSRH_USERNAME")
+                password = findProperty("ossrhPassword") ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+}
+// --- End Maven Central publish settings ---
 
 gem {
   from("LICENSE.txt")
