@@ -24,3 +24,12 @@ jobs:
     - name: Spotbugs
       run: |
         ./gradlew spotbugsMain spotbugsTest
+    - name: publish to Maven Central
+      if: github.ref == 'refs/heads/main'
+      # env:
+      #   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      #   GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      #   OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      #   OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+      run: |
+        ./gradlew publish
