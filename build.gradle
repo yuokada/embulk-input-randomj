@@ -26,7 +26,7 @@ repositories {
   maven { url 'https://nexus.web.cern.ch/nexus/content/repositories/public/' }
 }
 
-def JUNIT_VERSION = "5.13.3"
+def JUNIT_VERSION = "5.13.4"
 
 tasks.withType(JavaCompile) {
   options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
